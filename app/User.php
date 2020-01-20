@@ -28,7 +28,14 @@ class User extends Authenticatable
     ];
 
     //Mine
+    //relationship with role
     public function role(){
         return $this->belongsTo('App\Role');
     }
+    //relationship with photo
+    public function photo(){
+        return $this->belongsto('App\Photo');
+    }
+
+
 }
