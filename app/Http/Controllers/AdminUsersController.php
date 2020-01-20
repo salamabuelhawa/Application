@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UsersEditRequest;
 use App\Http\Requests\UsersRequest;
 use App\Photo;
 use App\Role;
@@ -57,7 +58,7 @@ class AdminUsersController extends Controller
         //User::create($request->all());//to create user
         $input['password'] = bcrypt($request->password);
         User::create($input);//to create user
-        //return redirect('admin/users');
+        return redirect('admin/users');
         //return $request->all();//if i just want to see my request
     }
 
@@ -81,7 +82,9 @@ class AdminUsersController extends Controller
     public function edit($id)
     {
         //
-        return view('admin.users.edit');
+        $user = User::findOrFail($id);
+        $roles = Role::pluck('name','id')->all();
+        return view('admin.users.edit',compact('user','roles'));
     }
 
     /**
@@ -91,9 +94,24 @@ class AdminUsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UsersEditRequest $request, $id)
     {
         //
+        //return $request->all();
+        $user = User::findOrFail($id);
+        $input = $request->all();
+        //detict photos
+        if($file = $request->file('photo_id')){//checking for the file
+            $name = time(). $file->getClientOriginalName();
+            $file->move('images',$name);
+            //create photo
+            $photo = Photo::create(['file'=>$name]);
+            $input['photo_id'] = $photo->id;
+            //then update the user
+            $user->update($input);
+
+            return redirect('/admin/users');
+        }
     }
 
     /**
