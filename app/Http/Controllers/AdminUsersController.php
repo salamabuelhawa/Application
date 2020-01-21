@@ -43,7 +43,14 @@ class AdminUsersController extends Controller
      */
     public function store(UsersRequest $request)
     {
-        //
+        //create ccondition for password just incase its empty
+        if(trim($request->password) == ''){
+            $input = $request->except('password');
+        }else{
+            $input['password'] = bcrypt($request->password);
+            $input = $request->all();
+        }
+
         $input = $request->all();
         //
         //if we have a photo?
@@ -94,12 +101,20 @@ class AdminUsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UsersEditRequest $request, $id)
+    public function update(UsersRequest $request, $id)
     {
         //
         //return $request->all();
         $user = User::findOrFail($id);
-        $input = $request->all();
+
+        if(trim($request->password) == ''){
+            $input = $request->except('password');
+        }else{
+            $input['password'] = bcrypt($request->password);
+            $input = $request->all();
+        }
+
+        //$input = $request->all();
         //detict photos
         if($file = $request->file('photo_id')){//checking for the file
             $name = time(). $file->getClientOriginalName();

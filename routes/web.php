@@ -24,4 +24,9 @@ Route::get('/admin',function(){
     return view('admin.index');
 });
 
-Route::resource('admin/users','AdminUsersController');
+//route group for middleware
+Route::group(['middleware'=>'admin'],function(){
+    Route::resource('admin/users','AdminUsersController');
+});
+
+
