@@ -11,6 +11,7 @@
 
     <title>Admin</title>
 
+
     <!--Mine-->
 
 
@@ -70,7 +71,7 @@
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
-            </li>
+            </p>
             <!-- /.dropdown -->
 
 
