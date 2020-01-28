@@ -44,5 +44,7 @@ Route::group(['middleware'=>'admin'],function(){
 
     //Route::get('/media/upload',['as'=>'media.upload']);
 });
-
+Route::group(['middleware'=>'auth'],function(){
+    Route::post('/comment/reply','CommentRepliesController@createReply');
+});
 

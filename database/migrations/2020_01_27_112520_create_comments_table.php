@@ -18,6 +18,7 @@ class CreateCommentsTable extends Migration
             $table->integer('post_id')->index()->unsigned()->nullable();
             $table->integer('is_active')->default(0)->nullable();
             $table->string('author');
+            $table->string('photo')->nullable();
             $table->string('email');
             $table->text('body');
             $table->timestamps();
